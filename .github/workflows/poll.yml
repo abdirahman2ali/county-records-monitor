@@ -1,0 +1,30 @@
+name: Weekly County Records Poll
+
+on:
+  schedule:
+    # Every Monday at 8 AM UTC
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.2.0
+
+      - uses: actions/setup-python@v5.2.0
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run county records monitor
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          COUNTY_RECORDS_DATABASE_URL: ${{ secrets.COUNTY_RECORDS_DATABASE_URL }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
+        run: python main.py
