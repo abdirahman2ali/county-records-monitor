@@ -1,10 +1,13 @@
-name: Weekly County Records Poll
+name: County Records Poll
 
 on:
-  schedule:
-    # Every Monday at 8 AM UTC
-    - cron: "0 8 * * 1"
   workflow_dispatch:
+  # Scheduled run paused — scrapers need to be updated before re-enabling
+  # All three county portals have changed and now have bot protection:
+  #   Broward:    officialrecords.broward.org/AcclaimWeb   (Cloudflare 403)
+  #   Miami-Dade: onlineservices.miamidadeclerk.gov        (reCAPTCHA)
+  #   Palm Beach: erec.mypalmbeachclerk.com                (Landmark Web, AJAX)
+  # Next step: evaluate Playwright vs Apify to handle the new portals
 
 jobs:
   poll:
